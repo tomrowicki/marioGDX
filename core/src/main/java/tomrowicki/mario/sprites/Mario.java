@@ -120,5 +120,12 @@ public class Mario extends Sprite {
         feet.set(new Vector2(-2 / PPM, -6 / PPM), new Vector2(2 / PPM, -6 / PPM));
         fdef2.shape = feet;
         b2body.createFixture(fdef2);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / PPM, 6 / PPM), new Vector2(2 / PPM, 6 / PPM));
+        fdef.shape = head;
+        fdef.isSensor = true;
+        b2body.createFixture(fdef).setUserData("head");
+
     }
 }

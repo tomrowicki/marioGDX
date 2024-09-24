@@ -17,6 +17,7 @@ import tomrowicki.mario.MarioBros;
 import tomrowicki.mario.scenes.Hud;
 import tomrowicki.mario.sprites.Mario;
 import tomrowicki.mario.tools.B2WorldCreator;
+import tomrowicki.mario.tools.WorldContactListener;
 
 import static tomrowicki.mario.MarioBros.PPM;
 
@@ -56,6 +57,8 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world, map);
 
         player = new Mario(world, this);
+
+        world.setContactListener(new WorldContactListener());
     }
 
     public TextureAtlas getAtlas() {
