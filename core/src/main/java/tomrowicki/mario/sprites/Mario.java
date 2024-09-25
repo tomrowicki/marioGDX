@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import tomrowicki.mario.screens.PlayScreen;
 
-import static tomrowicki.mario.MarioBros.PPM;
+import static tomrowicki.mario.MarioBros.*;
 
 public class Mario extends Sprite {
 
@@ -110,16 +110,19 @@ public class Mario extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(6 / PPM);
 
+        fdef.filter.categoryBits = MARIO_BIT;
+        fdef.filter.maskBits = DEFAULT_BIT | COIN_BIT | BRICK_BIT; // says what can Mario collide with
+
         fdef.shape = shape;
         b2body.createFixture(fdef);
 
         // The below block is fixing a bug where Mario's animation breaks when he's running over bricks and coin boxes:
         // "Just add this extra fixture to your defineMario() method. This EdgeShape fixture acts as Mario's feet and slides smoothly across the tiles, without bumping or changing animation."
-        FixtureDef fdef2 = new FixtureDef();
-        EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-2 / PPM, -6 / PPM), new Vector2(2 / PPM, -6 / PPM));
-        fdef2.shape = feet;
-        b2body.createFixture(fdef2);
+//        FixtureDef fdef2 = new FixtureDef();
+//        EdgeShape feet = new EdgeShape();
+//        feet.set(new Vector2(-2 / PPM, -6 / PPM), new Vector2(2 / PPM, -6 / PPM));
+//        fdef2.shape = feet;
+//        b2body.createFixture(fdef2);
 
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / PPM, 6 / PPM), new Vector2(2 / PPM, 6 / PPM));
