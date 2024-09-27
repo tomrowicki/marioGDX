@@ -1,9 +1,11 @@
 package tomrowicki.mario.sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
+import tomrowicki.mario.MarioBros;
 import tomrowicki.mario.scenes.Hud;
 
 import static tomrowicki.mario.MarioBros.BRICK_BIT;
@@ -23,5 +25,6 @@ public class Brick extends InteractiveTileObject{
         setCategoryFilter(DESTROYED_BIT);
         getCell().setTile(null);
         Hud.addScore(200);
+        MarioBros.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
     }
 }
