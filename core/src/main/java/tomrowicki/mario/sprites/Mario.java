@@ -111,7 +111,7 @@ public class Mario extends Sprite {
         shape.setRadius(6 / PPM);
 
         fdef.filter.categoryBits = MARIO_BIT;
-        fdef.filter.maskBits = GROUND_BIT | COIN_BIT | BRICK_BIT | ENEMY_BIT | OBJECT_BIT; // says what can Mario collide with
+        fdef.filter.maskBits = GROUND_BIT | COIN_BIT | BRICK_BIT | ENEMY_BIT | OBJECT_BIT | ENEMY_HEAD_BIT; // says what can Mario collide with
 
         fdef.shape = shape;
         b2body.createFixture(fdef);

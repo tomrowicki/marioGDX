@@ -67,9 +67,9 @@ public class PlayScreen implements Screen {
 
         music = MarioBros.manager.get("audio/music/mario_music.ogg", Music.class);
         music.setLooping(true);
-        music.play();
+//        music.play(); // turns music on
 
-        goomba = new Goomba(this, .32f, .32f);
+        goomba = new Goomba(this, .64f, .32f);
     }
 
     public TextureAtlas getAtlas() {
