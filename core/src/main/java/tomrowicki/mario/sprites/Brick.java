@@ -2,19 +2,18 @@ package tomrowicki.mario.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.World;
 import tomrowicki.mario.MarioBros;
 import tomrowicki.mario.scenes.Hud;
+import tomrowicki.mario.screens.PlayScreen;
 
 import static tomrowicki.mario.MarioBros.BRICK_BIT;
 import static tomrowicki.mario.MarioBros.DESTROYED_BIT;
 
 public class Brick extends InteractiveTileObject{
 
-    public Brick(World world, TiledMap map, Rectangle bounds) {
-        super(world, map, bounds);
+    public Brick(PlayScreen screen, Rectangle bounds) {
+        super(screen, bounds);
         fixture.setUserData(this);
         setCategoryFilter(BRICK_BIT);
     }
