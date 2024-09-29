@@ -1,11 +1,11 @@
 package tomrowicki.mario.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import tomrowicki.mario.sprites.Enemy;
 import tomrowicki.mario.sprites.InteractiveTileObject;
 
-import static tomrowicki.mario.MarioBros.ENEMY_HEAD_BIT;
-import static tomrowicki.mario.MarioBros.MARIO_BIT;
+import static tomrowicki.mario.MarioBros.*;
 
 public class WorldContactListener implements ContactListener {
 
@@ -26,12 +26,26 @@ public class WorldContactListener implements ContactListener {
         }
 
         switch (cDef) {
-            case ENEMY_HEAD_BIT | MARIO_BIT:
+            case ENEMY_HEAD_BIT | MARIO_BIT: // when Mario collides with enemy's head
                 if (fixA.getFilterData().categoryBits == ENEMY_HEAD_BIT) {
                     ( (Enemy) fixA.getUserData()).hitOnHead();
-                } else if (fixB.getFilterData().categoryBits == ENEMY_HEAD_BIT) {
+                } else {
                     ( (Enemy) fixB.getUserData()).hitOnHead();
                 }
+                break;
+            case ENEMY_BIT | OBJECT_BIT: // when enemy walks into a pipe or smth
+                if (fixA.getFilterData().categoryBits == ENEMY_BIT) {
+                    ( (Enemy) fixA.getUserData()).reverseVelocity(true, false);
+                } else {
+                    ( (Enemy) fixB.getUserData()).reverseVelocity(true, false);
+                }
+                break;
+            case MARIO_BIT | ENEMY_BIT:
+                Gdx.app.log("Mario", "died");
+                break;
+            case ENEMY_BIT | ENEMY_BIT:
+                ( (Enemy) fixA.getUserData()).reverseVelocity(true, false);
+                ( (Enemy) fixB.getUserData()).reverseVelocity(true, false);
         }
     }
 
