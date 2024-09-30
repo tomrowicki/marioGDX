@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import tomrowicki.mario.MarioBros;
@@ -19,8 +20,13 @@ import tomrowicki.mario.scenes.Hud;
 import tomrowicki.mario.sprites.Enemy;
 import tomrowicki.mario.sprites.Goomba;
 import tomrowicki.mario.sprites.Mario;
+import tomrowicki.mario.sprites.items.Item;
+import tomrowicki.mario.sprites.items.ItemDef;
+import tomrowicki.mario.sprites.items.Mushroom;
 import tomrowicki.mario.tools.B2WorldCreator;
 import tomrowicki.mario.tools.WorldContactListener;
+
+import java.util.PriorityQueue;
 
 import static tomrowicki.mario.MarioBros.PPM;
 
@@ -46,6 +52,9 @@ public class PlayScreen implements Screen {
 
     private Music music;
 
+    private Array<Item> items;
+    private PriorityQueue<ItemDef> itemsToSpawn;
+
     public PlayScreen(MarioBros game) {
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         this.game = game;
@@ -70,6 +79,22 @@ public class PlayScreen implements Screen {
         music = MarioBros.manager.get("audio/music/mario_music.ogg", Music.class);
         music.setLooping(true);
 //        music.play(); // turns music on
+
+        items = new Array<>();
+        itemsToSpawn = new PriorityQueue<>();
+    }
+
+    public void spawnItem(ItemDef itemDef) {
+        itemsToSpawn.add(itemDef);
+    }
+
+    public void handleSpawningItems() {
+        if (!itemsToSpawn.isEmpty()) {
+            ItemDef itemDef = itemsToSpawn.poll();
+            if (itemDef.type == Mushroom.class) {
+                items.add(new Mushroom(this, itemDef.position.x, itemDef.position.y));
+            }
+        }
     }
 
     public TextureAtlas getAtlas() {
@@ -95,6 +120,7 @@ public class PlayScreen implements Screen {
 
     public void update(float dt) {
         handleInput(dt);
+        handleSpawningItems();
 
         // Brent sets the timeStep to 1/60f but that makes the game too fast for 120Hz refreshing rate
         world.step(1/120f, 6, 2);
@@ -103,6 +129,10 @@ public class PlayScreen implements Screen {
             if (enemy.getX() < player.getX() + 224 / PPM) {
                 enemy.b2body.setActive(true);
             }
+        }
+
+        for (Item item : items) {
+            item.update(dt);
         }
 
         player.update(dt);
@@ -133,6 +163,9 @@ public class PlayScreen implements Screen {
         player.draw(game.batch);
         for (Enemy enemy : creator.getGoombas()) {
             enemy.draw(game.batch);
+        }
+        for (Item item : items) {
+            item.draw(game.batch);
         }
         game.batch.end();
 
