@@ -28,12 +28,12 @@ public abstract class Enemy extends Sprite {
 
     public abstract void update(float dt);
 
-    public void reverseVelocity(boolean x, boolean y) {
-        if (x) {
-            velocity.x = -velocity.x;
+        public void reverseVelocity(boolean x, boolean y) {
+            if (x) {
+                velocity.x = -velocity.x;
+            }
+            if (y) {
+                velocity.y = -velocity.y;
+            }
         }
-        if (y) {
-            velocity.y = -velocity.y;
-        }
-    }
 }

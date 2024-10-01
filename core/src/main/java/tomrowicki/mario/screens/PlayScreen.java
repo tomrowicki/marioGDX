@@ -20,6 +20,7 @@ import tomrowicki.mario.scenes.Hud;
 import tomrowicki.mario.sprites.Enemy;
 import tomrowicki.mario.sprites.Goomba;
 import tomrowicki.mario.sprites.Mario;
+import tomrowicki.mario.sprites.Turtle;
 import tomrowicki.mario.sprites.items.Item;
 import tomrowicki.mario.sprites.items.ItemDef;
 import tomrowicki.mario.sprites.items.Mushroom;
@@ -27,6 +28,7 @@ import tomrowicki.mario.tools.B2WorldCreator;
 import tomrowicki.mario.tools.WorldContactListener;
 
 import java.util.PriorityQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static tomrowicki.mario.MarioBros.PPM;
 
@@ -53,7 +55,10 @@ public class PlayScreen implements Screen {
     private Music music;
 
     private Array<Item> items;
-    private PriorityQueue<ItemDef> itemsToSpawn;
+    private LinkedBlockingQueue<ItemDef> itemsToSpawn;
+
+    private Turtle turtle;
+    private Goomba goomba;
 
     public PlayScreen(MarioBros game) {
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
@@ -81,7 +86,7 @@ public class PlayScreen implements Screen {
 //        music.play(); // turns music on
 
         items = new Array<>();
-        itemsToSpawn = new PriorityQueue<>();
+        itemsToSpawn = new LinkedBlockingQueue<>();
     }
 
     public void spawnItem(ItemDef itemDef) {
@@ -131,6 +136,13 @@ public class PlayScreen implements Screen {
             }
         }
 
+        for (Enemy enemy : creator.getTurtles()) {
+            enemy.update(dt);
+            if (enemy.getX() < player.getX() + 224 / PPM) {
+                enemy.b2body.setActive(true);
+            }
+        }
+
         for (Item item : items) {
             item.update(dt);
         }
@@ -162,6 +174,9 @@ public class PlayScreen implements Screen {
         game.batch.begin();
         player.draw(game.batch);
         for (Enemy enemy : creator.getGoombas()) {
+            enemy.draw(game.batch);
+        }
+        for (Enemy enemy : creator.getTurtles()) {
             enemy.draw(game.batch);
         }
         for (Item item : items) {

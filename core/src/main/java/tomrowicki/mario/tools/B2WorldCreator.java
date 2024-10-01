@@ -10,6 +10,7 @@ import tomrowicki.mario.screens.PlayScreen;
 import tomrowicki.mario.sprites.Brick;
 import tomrowicki.mario.sprites.Coin;
 import tomrowicki.mario.sprites.Goomba;
+import tomrowicki.mario.sprites.Turtle;
 
 import static tomrowicki.mario.MarioBros.OBJECT_BIT;
 import static tomrowicki.mario.MarioBros.PPM;
@@ -17,6 +18,7 @@ import static tomrowicki.mario.MarioBros.PPM;
 public class B2WorldCreator {
 
     private Array<Goomba> goombas;
+    private Array<Turtle> turtles;
 
     public B2WorldCreator(PlayScreen screen) {
         World world = screen.getWorld();
@@ -58,14 +60,12 @@ public class B2WorldCreator {
 
         // bricks
         for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            new Brick(screen, rect);
+            new Brick(screen, object);
         }
 
         // coins
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            new Coin(screen, rect);
+            new Coin(screen, object);
         }
 
         // goombas
@@ -74,9 +74,20 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             goombas.add(new Goomba(screen, rect.getX() / PPM, rect.getY() / PPM));
         }
+
+        // turtles
+        turtles = new Array<>();
+        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            turtles.add(new Turtle(screen, rect.getX() / PPM, rect.getY() / PPM));
+        }
     }
 
     public Array<Goomba> getGoombas() {
         return goombas;
+    }
+
+    public Array<Turtle> getTurtles() {
+        return turtles;
     }
 }
