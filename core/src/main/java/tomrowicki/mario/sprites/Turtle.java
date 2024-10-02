@@ -141,6 +141,7 @@ public class Turtle extends Enemy {
         }
     }
 
+    // TODO needs to be invoked from collision handler
     public void onShellHit() {
         if (currentState == State.SHELL) {
             currentState = State.STATIONARY_SHELL;

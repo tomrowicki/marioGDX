@@ -57,14 +57,13 @@ public class WorldContactListener implements ContactListener {
                 }
                 break;
             case ITEM_BIT | MARIO_BIT:
-                if (fixA.getFilterData().categoryBits == ITEM_BIT) {
-                    ((Item) fixA.getUserData()).use((Mario) fixB.getUserData());
-                } else {
-                    if (!(fixA.getUserData() instanceof String) && !(fixB.getUserData() instanceof String)) {
+                if (!(fixA.getUserData() instanceof String) && !(fixB.getUserData() instanceof String)) {
+                    if (fixA.getFilterData().categoryBits == ITEM_BIT)
+                        ((Item) fixA.getUserData()).use((Mario) fixB.getUserData());
+                    else
                         ((Item) fixB.getUserData()).use((Mario) fixA.getUserData());
-                    }
+                    break;
                 }
-                break;
         }
     }
 
