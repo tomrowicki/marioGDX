@@ -11,7 +11,7 @@ import tomrowicki.mario.screens.PlayScreen;
 import static tomrowicki.mario.MarioBros.BRICK_BIT;
 import static tomrowicki.mario.MarioBros.DESTROYED_BIT;
 
-public class Brick extends InteractiveTileObject{
+public class Brick extends InteractiveTileObject {
 
     public Brick(PlayScreen screen, MapObject object) {
         super(screen, object);
@@ -20,11 +20,14 @@ public class Brick extends InteractiveTileObject{
     }
 
     @Override
-    public void onHeadHit() {
-        Gdx.app.log("Brick", "onHeadHit");
-        setCategoryFilter(DESTROYED_BIT);
-        getCell().setTile(null);
-        Hud.addScore(200);
-        MarioBros.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
+    public void onHeadHit(Mario mario) {
+        if (mario.isBig()) {
+            setCategoryFilter(DESTROYED_BIT);
+            getCell().setTile(null);
+            Hud.addScore(200);
+            MarioBros.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
+        } else {
+            MarioBros.manager.get("audio/sounds/bump.wav", Sound.class).play();
+        }
     }
 }
