@@ -1,9 +1,7 @@
 package tomrowicki.mario.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.math.Rectangle;
 import tomrowicki.mario.MarioBros;
 import tomrowicki.mario.scenes.Hud;
 import tomrowicki.mario.screens.PlayScreen;

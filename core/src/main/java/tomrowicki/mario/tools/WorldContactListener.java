@@ -42,7 +42,11 @@ public class WorldContactListener implements ContactListener {
                 }
                 break;
             case MARIO_BIT | ENEMY_BIT:
-                Gdx.app.log("Mario", "died");
+                if (fixA.getFilterData().categoryBits == MARIO_BIT) {
+                    ((Mario) fixA.getUserData()).hit();
+                } else {
+                    ((Mario) fixB.getUserData()).hit();
+                }
                 break;
             case ENEMY_BIT | ENEMY_BIT:
                 ((Enemy) fixA.getUserData()).reverseVelocity(true, false);

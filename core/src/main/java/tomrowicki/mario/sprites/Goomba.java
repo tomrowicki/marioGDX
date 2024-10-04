@@ -1,5 +1,6 @@
 package tomrowicki.mario.sprites;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
+import tomrowicki.mario.MarioBros;
 import tomrowicki.mario.screens.PlayScreen;
 
 import static tomrowicki.mario.MarioBros.*;
@@ -34,15 +36,15 @@ public class Goomba extends Enemy {
         destroyed = false;
     }
 
-    public void update(float dt) {
+    public void update(float dt){
         stateTime += dt;
-        if (setToDestroy && !destroyed) {
+        if(setToDestroy && !destroyed){
             world.destroyBody(b2body);
             destroyed = true;
             setRegion(new TextureRegion(screen.getAtlas().findRegion("goomba"), 32, 0, 16, 16));
             stateTime = 0;
-
-        } else if (!destroyed) {
+        }
+        else if(!destroyed) {
             b2body.setLinearVelocity(velocity);
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
             setRegion(walkAnimation.getKeyFrame(stateTime, true));
@@ -90,5 +92,6 @@ public class Goomba extends Enemy {
     @Override
     public void hitOnHead() {
         setToDestroy = true;
+        MarioBros.manager.get("audio/sounds/stomp.wav", Sound.class).play();
     }
 }
