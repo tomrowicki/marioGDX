@@ -29,9 +29,9 @@ public class WorldContactListener implements ContactListener {
                 break;
             case ENEMY_HEAD_BIT | MARIO_BIT: // when Mario collides with enemy's head
                 if (fixA.getFilterData().categoryBits == ENEMY_HEAD_BIT) {
-                    ((Enemy) fixA.getUserData()).hitOnHead();
+                    ((Enemy) fixA.getUserData()).hitOnHead((Mario) fixB.getUserData());
                 } else {
-                    ((Enemy) fixB.getUserData()).hitOnHead();
+                    ((Enemy) fixB.getUserData()).hitOnHead((Mario) fixA.getUserData());
                 }
                 break;
             case ENEMY_BIT | OBJECT_BIT: // when enemy walks into a pipe or smth
@@ -43,14 +43,14 @@ public class WorldContactListener implements ContactListener {
                 break;
             case MARIO_BIT | ENEMY_BIT:
                 if (fixA.getFilterData().categoryBits == MARIO_BIT) {
-                    ((Mario) fixA.getUserData()).hit();
+                    ((Mario) fixA.getUserData()).hit((Enemy) fixB.getUserData());
                 } else {
-                    ((Mario) fixB.getUserData()).hit();
+                    ((Mario) fixB.getUserData()).hit((Enemy) fixA.getUserData());
                 }
                 break;
             case ENEMY_BIT | ENEMY_BIT:
-                ((Enemy) fixA.getUserData()).reverseVelocity(true, false);
-                ((Enemy) fixB.getUserData()).reverseVelocity(true, false);
+                ((Enemy) fixA.getUserData()).onEnemyHit((Enemy) fixB.getUserData());
+                ((Enemy) fixB.getUserData()).onEnemyHit((Enemy) fixA.getUserData());
                 break;
             case ITEM_BIT | OBJECT_BIT: // when enemy walks into a pipe or smth
                 if (fixA.getFilterData().categoryBits == ITEM_BIT) {

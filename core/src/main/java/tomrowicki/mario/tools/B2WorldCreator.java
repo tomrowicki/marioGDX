@@ -7,10 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import tomrowicki.mario.screens.PlayScreen;
-import tomrowicki.mario.sprites.Brick;
-import tomrowicki.mario.sprites.Coin;
-import tomrowicki.mario.sprites.Goomba;
-import tomrowicki.mario.sprites.Turtle;
+import tomrowicki.mario.sprites.*;
 
 import static tomrowicki.mario.MarioBros.OBJECT_BIT;
 import static tomrowicki.mario.MarioBros.PPM;
@@ -89,5 +86,12 @@ public class B2WorldCreator {
 
     public Array<Turtle> getTurtles() {
         return turtles;
+    }
+
+    public Array<Enemy> getEnemies() {
+        Array<Enemy> enemies = new Array<>();
+        enemies.addAll(goombas);
+        enemies.addAll(turtles);
+        return enemies;
     }
 }

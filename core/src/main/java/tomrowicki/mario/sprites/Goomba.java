@@ -52,6 +52,18 @@ public class Goomba extends Enemy {
     }
 
     @Override
+    public void onEnemyHit(Enemy enemy) {
+        if (enemy instanceof Turtle) {
+            if (((Turtle) enemy).currentState == Turtle.State.MOVING_SHELL) {
+                setToDestroy = true;
+            }
+            reverseVelocity(true, false);
+        } else {
+            reverseVelocity(true, false);
+        }
+    }
+
+    @Override
     protected void defineEnemy() {
         BodyDef bdef = new BodyDef();
         bdef.position.set(getX(), getY());
@@ -90,7 +102,7 @@ public class Goomba extends Enemy {
     }
 
     @Override
-    public void hitOnHead() {
+    public void hitOnHead(Mario mario) {
         setToDestroy = true;
         MarioBros.manager.get("audio/sounds/stomp.wav", Sound.class).play();
     }
